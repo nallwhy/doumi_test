@@ -1,4 +1,6 @@
 defmodule Doumi.Test.Assertions do
+  alias Doumi.Test.Helpers
+
   @doc """
   Assert that two values are the same.
 
@@ -13,7 +15,7 @@ defmodule Doumi.Test.Assertions do
   """
   defmacro assert_same_values(a, b) do
     quote bind_quoted: [a: a, b: b] do
-      if Doumi.Test.same_values?(a, b) do
+      if Helpers.same_values?(a, b) do
         assert true
       else
         raise ExUnit.AssertionError,
@@ -37,7 +39,7 @@ defmodule Doumi.Test.Assertions do
   """
   defmacro assert_same_fields(a, b, keys) do
     quote bind_quoted: [a: a, b: b, keys: keys] do
-      if Doumi.Test.same_fields?(a, b, keys) do
+      if Helpers.same_fields?(a, b, keys) do
         assert true
       else
         raise ExUnit.AssertionError,
@@ -63,7 +65,7 @@ defmodule Doumi.Test.Assertions do
     """
     defmacro assert_same_records(a, b) do
       quote bind_quoted: [a: a, b: b] do
-        if Doumi.Test.same_records?(a, b) do
+        if Helpers.same_records?(a, b) do
           assert true
         else
           raise ExUnit.AssertionError,
