@@ -21,7 +21,8 @@ defmodule Doumi.Test.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:decimal, "~> 2.0", optional: true}
+      {:decimal, "~> 2.0", optional: true},
+      {:ecto, "~> 3.0", only: :test}
     ]
   end
 end
