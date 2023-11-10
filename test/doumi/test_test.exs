@@ -58,4 +58,28 @@ defmodule Doumi.TestTest do
       assert Test.same_values?("foo", "bar") == false
     end
   end
+
+  describe "same_fields?/2" do
+    test "returns true comparing two maps with the same values for the given fields" do
+      assert Test.same_fields?(
+               %{a: ~U[2023-01-01 00:00:00Z], b: Decimal.new("1.1")},
+               %{a: ~U[2023-01-01 00:00:00.000Z], b: 1.1},
+               [:a, :b]
+             ) == true
+    end
+
+    test "returns false comparing two maps with different values for the given fields" do
+      assert Test.same_fields?(
+               %{a: ~U[2023-01-01 00:00:00Z], b: Decimal.new("1.1")},
+               %{a: ~U[2023-01-01 00:00:01Z], b: Decimal.new("1.1")},
+               [:a, :b]
+             ) == false
+    end
+
+    test "throws error when one of maps doesn't contain the given field" do
+      assert_raise KeyError, ~r/key :b not found in/, fn ->
+        Test.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
+      end
+    end
+  end
 end

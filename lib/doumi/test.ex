@@ -30,4 +30,23 @@ defmodule Doumi.Test do
   end
 
   def same_values?(a, b), do: a == b
+
+  @doc """
+  Compare two maps have the same value for a given fields.
+  The two maps must always contain the given field.
+
+  ## Examples
+      iex> Doumi.Test.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 2}, [:a, :b])
+      true
+
+      iex> Doumi.Test.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 3}, [:a, :b])
+      false
+
+      iex> Doumi.Test.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
+      ** (KeyError) key :b not found in: %{a: 1}
+  """
+  @spec same_fields?(map(), map(), list()) :: boolean()
+  def same_fields?(a, b, keys) when is_map(a) and is_map(b) and is_list(keys) do
+    Enum.all?(keys, &same_values?(Map.fetch!(a, &1), Map.fetch!(b, &1)))
+  end
 end
