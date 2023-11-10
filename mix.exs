@@ -12,7 +12,8 @@ defmodule Doumi.Test.MixProject do
       name: "Doumi.Test",
       description: "A helper library that makes it easier to test.",
       deps: deps(),
-      package: package()
+      package: package(),
+      docs: docs()
     ]
   end
 
@@ -27,7 +28,8 @@ defmodule Doumi.Test.MixProject do
   defp deps do
     [
       {:decimal, "~> 2.0", optional: true},
-      {:ecto, "~> 3.0", only: :test}
+      {:ecto, "~> 3.0", only: :test},
+      {:ex_doc, "~> 0.30", only: :docs}
     ]
   end
 
@@ -37,6 +39,18 @@ defmodule Doumi.Test.MixProject do
       maintainers: ["Jinkyou Son(nallwhy@gmail.com)"],
       files: ~w(lib mix.exs README.md LICENSE.md),
       links: %{"GitHub" => @source_url}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @source_url,
+      extras: [
+        "README.md": [title: "Overview"],
+        "LICENSE.md": [title: "License"]
+      ]
     ]
   end
 end
