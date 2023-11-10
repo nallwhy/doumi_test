@@ -82,4 +82,88 @@ defmodule Doumi.TestTest do
       end
     end
   end
+
+  describe "same_records?/2" do
+    defmodule TestModule1 do
+      use Ecto.Schema
+
+      @primary_key false
+      schema "test1" do
+        field(:primary_key0, :integer, primary_key: true)
+        field(:primary_key1, :string, primary_key: true)
+        field(:field0, :integer)
+      end
+    end
+
+    defmodule TestModule2 do
+      use Ecto.Schema
+
+      @primary_key false
+      schema "test2" do
+        field(:primary_key0, :integer, primary_key: true)
+        field(:field0, :integer)
+      end
+    end
+
+    test "returns true with the two records have the same primary keys" do
+      primary_key0 = 1
+      primary_key1 = "a"
+
+      record0 = %TestModule1{
+        primary_key0: primary_key0,
+        primary_key1: primary_key1,
+        field0: 1
+      }
+
+      record1 = %TestModule1{
+        primary_key0: primary_key0,
+        primary_key1: primary_key1,
+        field0: 2
+      }
+
+      assert Test.same_records?(record0, record1) == true
+    end
+
+    test "returns false with the two records have different primary keys" do
+      primary_key0 = 1
+
+      record0 = %TestModule1{
+        primary_key0: primary_key0,
+        primary_key1: "a",
+        field0: 1
+      }
+
+      record1 = %TestModule1{
+        primary_key0: primary_key0,
+        primary_key1: "b",
+        field0: 1
+      }
+
+      assert Test.same_records?(record0, record1) == false
+    end
+
+    test "returns false with different schemas" do
+      primary_key0 = 1
+      primary_key1 = "a"
+
+      record0 = %TestModule1{
+        primary_key0: primary_key0,
+        primary_key1: primary_key1,
+        field0: 1
+      }
+
+      record1 = %TestModule2{
+        primary_key0: primary_key0,
+        field0: 1
+      }
+
+      assert Test.same_records?(record0, record1) == false
+    end
+
+    test "throws error when one of input is not a record" do
+      assert_raise KeyError, ~r/key :__struct__ not found in:/, fn ->
+        Test.same_records?(%{}, %TestModule1{})
+      end
+    end
+  end
 end

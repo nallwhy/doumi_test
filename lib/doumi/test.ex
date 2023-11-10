@@ -49,4 +49,20 @@ defmodule Doumi.Test do
   def same_fields?(a, b, keys) when is_map(a) and is_map(b) and is_list(keys) do
     Enum.all?(keys, &same_values?(Map.fetch!(a, &1), Map.fetch!(b, &1)))
   end
+
+  if Code.ensure_loaded?(Ecto) do
+    @doc """
+    Compare two records have the same primary keys.
+    """
+    @spec same_records?(Ecto.Schema.t(), Ecto.Schema.t()) :: boolean()
+    def same_records?(a, b) do
+      with true <- a.__struct__ == b.__struct__,
+           primary_keys <- a.__struct__.__schema__(:primary_key),
+           true <- same_fields?(a, b, primary_keys) do
+        true
+      else
+        _ -> false
+      end
+    end
+  end
 end
