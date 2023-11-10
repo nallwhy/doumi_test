@@ -16,4 +16,21 @@ defmodule Doumi.Test.AssertionsTest do
       end
     end
   end
+
+  describe "assert_same_fields/3" do
+    test "with the same fields" do
+      assert_same_fields %{a: 1, b: 2}, %{a: 1, b: 2}, [:a, :b]
+    end
+
+    test "with not the same fields" do
+      try do
+        assert_same_fields %{a: 1, b: 2}, %{a: 1, b: 3}, [:a, :b]
+      rescue
+        error in ExUnit.AssertionError ->
+          assert error.message == "The two maps have different values for the given fields"
+          assert error.left == %{a: 1, b: 2}
+          assert error.right == %{a: 1, b: 3}
+      end
+    end
+  end
 end
