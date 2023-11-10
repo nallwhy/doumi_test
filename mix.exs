@@ -1,13 +1,18 @@
 defmodule Doumi.Test.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/nallwhy/doumi_test"
+  @version "0.1.0"
+
   def project do
     [
       app: :doumi_test,
-      version: "0.1.0",
-      elixir: "~> 1.15",
-      start_permanent: Mix.env() == :prod,
-      deps: deps()
+      version: @version,
+      elixir: "~> 1.11",
+      name: "Doumi.Test",
+      description: "A helper library that makes it easier to test.",
+      deps: deps(),
+      package: package()
     ]
   end
 
@@ -23,6 +28,15 @@ defmodule Doumi.Test.MixProject do
     [
       {:decimal, "~> 2.0", optional: true},
       {:ecto, "~> 3.0", only: :test}
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      maintainers: ["Jinkyou Son(nallwhy@gmail.com)"],
+      files: ~w(lib mix.exs README.md LICENSE.md),
+      links: %{"GitHub" => @source_url}
     ]
   end
 end
