@@ -33,4 +33,28 @@ defmodule Doumi.Test.AssertionsTest do
       end
     end
   end
+
+  describe "assert_same_records/2" do
+    defmodule TestModule1 do
+      use Ecto.Schema
+
+      schema "test" do
+      end
+    end
+
+    test "with the same records" do
+      assert_same_records %TestModule1{id: 1}, %TestModule1{id: 1}
+    end
+
+    test "with not the same records" do
+      try do
+        assert_same_records %TestModule1{id: 1}, %TestModule1{id: 2}
+      rescue
+        error in ExUnit.AssertionError ->
+          assert error.message == "The two records have different primary keys"
+          assert error.left == %TestModule1{id: 1}
+          assert error.right == %TestModule1{id: 2}
+      end
+    end
+  end
 end

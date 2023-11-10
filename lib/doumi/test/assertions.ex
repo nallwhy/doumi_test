@@ -47,4 +47,31 @@ defmodule Doumi.Test.Assertions do
       end
     end
   end
+
+  if Code.ensure_loaded?(Ecto) do
+    @doc """
+    Assert that two records have the same primary keys.
+
+    ## Examples
+        iex> assert_same_records %TestModule1{id: 1}, %TestModule1{id: 1}
+        true
+
+        iex> assert_same_records %TestModule1{id: 1}, %TestModule1{id: 2}
+        ** (ExUnit.AssertionError)
+
+        The two records have different primary keys
+    """
+    defmacro assert_same_records(a, b) do
+      quote bind_quoted: [a: a, b: b] do
+        if Doumi.Test.same_records?(a, b) do
+          assert true
+        else
+          raise ExUnit.AssertionError,
+            message: "The two records have different primary keys",
+            left: a,
+            right: b
+        end
+      end
+    end
+  end
 end
