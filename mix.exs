@@ -28,7 +28,7 @@ defmodule Doumi.Test.MixProject do
   defp deps do
     [
       {:decimal, "~> 2.0", optional: true},
-      {:ecto, "~> 3.0", only: :test},
+      {:ecto, "~> 3.0", optional: true},
       {:ex_doc, "~> 0.30", only: :docs}
     ]
   end
