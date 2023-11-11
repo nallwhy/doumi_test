@@ -37,7 +37,7 @@ defmodule Doumi.Test.MixProject do
     [
       licenses: ["MIT"],
       maintainers: ["Jinkyou Son(nallwhy@gmail.com)"],
-      files: ~w(lib mix.exs README.md LICENSE.md),
+      files: ~w(lib mix.exs README.md LICENSE.md .formatter.exs),
       links: %{"GitHub" => @source_url}
     ]
   end
