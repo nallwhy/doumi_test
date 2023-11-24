@@ -92,6 +92,25 @@ defmodule MyApp.Test do
 end
 ```
 
+### `reload/2`, `reload!/2`
+
+```elixir
+defmodule MyApp.Test do
+  use MyApp.DataCase
+  use Doumi.Test
+
+  test "reload record" do
+    counter = insert(:counter)
+
+    assert :ok = increase_counter_and_no_return(counter)
+
+    updated_counter = reload!(counter)
+
+    assert updated_counter.count == counter.count + 1
+  end
+end
+```
+
 ## Installation
 
 The package can be installed by adding `doumi_test` to your list of dependencies in `mix.exs`:
