@@ -118,7 +118,7 @@ The package can be installed by adding `doumi_test` to your list of dependencies
 ```elixir
 def deps do
   [
-    {:doumi_test, "~> 0.1.0"}
+    {:doumi_test, "~> 0.2.0"}
   ]
 end
 ```
