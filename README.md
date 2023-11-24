@@ -104,6 +104,15 @@ def deps do
 end
 ```
 
+To configure formatter, add `:doumi_test` to `import_deps` of `.formatter.exs`:
+
+```elixir
+[
+  ...
+  import_deps: [..., :doumi_test]
+]
+```
+
 <!-- MDOC !-->
 
 ## Doumi\*
