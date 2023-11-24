@@ -1,67 +1,68 @@
-defmodule Doumi.Test.HelpersTest do
+defmodule Doumi.Test.ComparisonTest do
   use ExUnit.Case, async: true
-  alias Doumi.Test.Helpers
-  doctest Doumi.Test.Helpers
+  alias Doumi.Test.Comparison
+  doctest Doumi.Test.Comparison
 
   describe "same_values?/2" do
     test "returns true comparing two DateTimes with the same value but different precision" do
-      assert Helpers.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:00.000Z]) == true
+      assert Comparison.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:00.000Z]) ==
+               true
     end
 
     test "returns false comparing two DateTimes with different values" do
-      assert Helpers.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:01Z]) == false
+      assert Comparison.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:01Z]) == false
     end
 
     test "returns true comparing two Decimals with the same value" do
-      assert Helpers.same_values?(Decimal.new("1.1"), Decimal.new("1.1")) == true
+      assert Comparison.same_values?(Decimal.new("1.1"), Decimal.new("1.1")) == true
     end
 
     test "returns true comparing Decimal and integer with the same value" do
-      assert Helpers.same_values?(Decimal.new("1"), 1) == true
-      assert Helpers.same_values?(1, Decimal.new("1")) == true
+      assert Comparison.same_values?(Decimal.new("1"), 1) == true
+      assert Comparison.same_values?(1, Decimal.new("1")) == true
     end
 
     test "returns false comparing Decimal and integer with different values" do
-      assert Helpers.same_values?(Decimal.new("1"), 2) == false
-      assert Helpers.same_values?(2, Decimal.new("1")) == false
+      assert Comparison.same_values?(Decimal.new("1"), 2) == false
+      assert Comparison.same_values?(2, Decimal.new("1")) == false
     end
 
     test "returns true comparing Decimal and float with the same value" do
-      assert Helpers.same_values?(Decimal.new("1.1"), 1.1) == true
-      assert Helpers.same_values?(1.1, Decimal.new("1.1")) == true
+      assert Comparison.same_values?(Decimal.new("1.1"), 1.1) == true
+      assert Comparison.same_values?(1.1, Decimal.new("1.1")) == true
     end
 
     test "returns false comparing Decimal and float with different values" do
-      assert Helpers.same_values?(Decimal.new("1.1"), 1.2) == false
-      assert Helpers.same_values?(1.2, Decimal.new("1.1")) == false
+      assert Comparison.same_values?(Decimal.new("1.1"), 1.2) == false
+      assert Comparison.same_values?(1.2, Decimal.new("1.1")) == false
     end
 
     test "returns true comparing Decimal and string with the same value" do
-      assert Helpers.same_values?(Decimal.new("1.1"), "1.1") == true
-      assert Helpers.same_values?("1.1", Decimal.new("1.1")) == true
+      assert Comparison.same_values?(Decimal.new("1.1"), "1.1") == true
+      assert Comparison.same_values?("1.1", Decimal.new("1.1")) == true
     end
 
     test "returns false comparing Decimal and string with different values" do
-      assert Helpers.same_values?(Decimal.new("1.1"), "1.2") == false
-      assert Helpers.same_values?("1.2", Decimal.new("1.1")) == false
+      assert Comparison.same_values?(Decimal.new("1.1"), "1.2") == false
+      assert Comparison.same_values?("1.2", Decimal.new("1.1")) == false
     end
 
     test "returns true comparing the same things" do
-      assert Helpers.same_values?(1, 1) == true
-      assert Helpers.same_values?(1.1, 1.1) == true
-      assert Helpers.same_values?("foo", "foo") == true
+      assert Comparison.same_values?(1, 1) == true
+      assert Comparison.same_values?(1.1, 1.1) == true
+      assert Comparison.same_values?("foo", "foo") == true
     end
 
     test "returns false comparing two different things" do
-      assert Helpers.same_values?(1, 2) == false
-      assert Helpers.same_values?(1.1, 1.2) == false
-      assert Helpers.same_values?("foo", "bar") == false
+      assert Comparison.same_values?(1, 2) == false
+      assert Comparison.same_values?(1.1, 1.2) == false
+      assert Comparison.same_values?("foo", "bar") == false
     end
   end
 
   describe "same_fields?/2" do
     test "returns true comparing two maps with the same values for the given fields" do
-      assert Helpers.same_fields?(
+      assert Comparison.same_fields?(
                %{a: ~U[2023-01-01 00:00:00Z], b: Decimal.new("1.1")},
                %{a: ~U[2023-01-01 00:00:00.000Z], b: 1.1},
                [:a, :b]
@@ -69,7 +70,7 @@ defmodule Doumi.Test.HelpersTest do
     end
 
     test "returns false comparing two maps with different values for the given fields" do
-      assert Helpers.same_fields?(
+      assert Comparison.same_fields?(
                %{a: ~U[2023-01-01 00:00:00Z], b: Decimal.new("1.1")},
                %{a: ~U[2023-01-01 00:00:01Z], b: Decimal.new("1.1")},
                [:a, :b]
@@ -78,7 +79,7 @@ defmodule Doumi.Test.HelpersTest do
 
     test "throws error when one of maps doesn't contain the given field" do
       assert_raise KeyError, ~r/key :b not found in/, fn ->
-        Helpers.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
+        Comparison.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
       end
     end
   end
@@ -121,7 +122,7 @@ defmodule Doumi.Test.HelpersTest do
         field0: 2
       }
 
-      assert Helpers.same_records?(record0, record1) == true
+      assert Comparison.same_records?(record0, record1) == true
     end
 
     test "returns false with the two records have different primary keys" do
@@ -139,7 +140,7 @@ defmodule Doumi.Test.HelpersTest do
         field0: 1
       }
 
-      assert Helpers.same_records?(record0, record1) == false
+      assert Comparison.same_records?(record0, record1) == false
     end
 
     test "returns false with different schemas" do
@@ -157,12 +158,12 @@ defmodule Doumi.Test.HelpersTest do
         field0: 1
       }
 
-      assert Helpers.same_records?(record0, record1) == false
+      assert Comparison.same_records?(record0, record1) == false
     end
 
     test "throws error when one of input is not a record" do
       assert_raise KeyError, ~r/key :__struct__ not found in:/, fn ->
-        Helpers.same_records?(%{}, %TestModule1{})
+        Comparison.same_records?(%{}, %TestModule1{})
       end
     end
   end

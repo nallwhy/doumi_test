@@ -1,18 +1,18 @@
-defmodule Doumi.Test.Helpers do
+defmodule Doumi.Test.Comparison do
   @doc """
   Compare two values for equality.
 
   ## Examples
-      iex> Doumi.Test.Helpers.same_values?(1, 1)
+      iex> Doumi.Test.Comparison.same_values?(1, 1)
       true
 
-      iex> Doumi.Test.Helpers.same_values?("foo", "bar")
+      iex> Doumi.Test.Comparison.same_values?("foo", "bar")
       false
 
-      iex> Doumi.Test.Helpers.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:00.000Z])
+      iex> Doumi.Test.Comparison.same_values?(~U[2023-01-01 00:00:00Z], ~U[2023-01-01 00:00:00.000Z])
       true
 
-      iex> Doumi.Test.Helpers.same_values?(Decimal.new("1.1"), 1.1)
+      iex> Doumi.Test.Comparison.same_values?(Decimal.new("1.1"), 1.1)
       true
   """
   @spec same_values?(any(), any()) :: boolean()
@@ -36,13 +36,13 @@ defmodule Doumi.Test.Helpers do
   The two maps must always contain the given field.
 
   ## Examples
-      iex> Doumi.Test.Helpers.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 2}, [:a, :b])
+      iex> Doumi.Test.Comparison.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 2}, [:a, :b])
       true
 
-      iex> Doumi.Test.Helpers.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 3}, [:a, :b])
+      iex> Doumi.Test.Comparison.same_fields?(%{a: 1, b: 2}, %{a: 1, b: 3}, [:a, :b])
       false
 
-      iex> Doumi.Test.Helpers.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
+      iex> Doumi.Test.Comparison.same_fields?(%{a: 1}, %{a: 1, b: 2}, [:a, :b])
       ** (KeyError) key :b not found in: %{a: 1}
   """
   @spec same_fields?(map(), map(), list()) :: boolean()
