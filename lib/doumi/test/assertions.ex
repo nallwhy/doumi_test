@@ -15,9 +15,7 @@ defmodule Doumi.Test.Assertions do
   """
   defmacro assert_same_values(a, b) do
     quote bind_quoted: [a: a, b: b] do
-      if Helpers.same_values?(a, b) do
-        assert true
-      else
+      unless Helpers.same_values?(a, b) do
         raise ExUnit.AssertionError,
           message: "`#{inspect(a)}` and `#{inspect(b)}` are not the same values"
       end
@@ -39,9 +37,7 @@ defmodule Doumi.Test.Assertions do
   """
   defmacro assert_same_fields(a, b, keys) do
     quote bind_quoted: [a: a, b: b, keys: keys] do
-      if Helpers.same_fields?(a, b, keys) do
-        assert true
-      else
+      unless Helpers.same_fields?(a, b, keys) do
         raise ExUnit.AssertionError,
           message: "The two maps have different values for the given fields",
           left: a,
@@ -65,9 +61,7 @@ defmodule Doumi.Test.Assertions do
     """
     defmacro assert_same_records(a, b) do
       quote bind_quoted: [a: a, b: b] do
-        if Helpers.same_records?(a, b) do
-          assert true
-        else
+        unless Helpers.same_records?(a, b) do
           raise ExUnit.AssertionError,
             message: "The two records have different primary keys",
             left: a,
